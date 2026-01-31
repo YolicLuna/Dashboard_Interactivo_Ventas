@@ -1,3 +1,4 @@
+-- Active: 1765753889814@@127.0.0.1@3306@Aurelion_Dashboard
 CREATE DATABASE IF NOT EXISTS Aurelion_Dashboard; -- Se crea la base de datos
 
 USE Aurelion_Dashboard; -- Se selecciona la base de datos para su uso
