@@ -1,4 +1,4 @@
--- Active: 1765753889814@@127.0.0.1@3306@Aurelion_Dashboard
+-- Active: 1770178667709@@127.0.0.1@3306@aurelion_dashboard
 /* 
 Lo que haremos en este script es explorar los datos cargados, realizando consultas sql para 
 analisar la calidad de los datos, identificar posibles problemas, formatos inconsistentes,

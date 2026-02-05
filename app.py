@@ -11,8 +11,8 @@ dates = read_sql_df('''
     FROM Clientes;
 ''')
 
-min_fecha = pd.to_datetime(dates.loc[0,'min_f']).date()
-max_fecha = pd.to_datetime(dates.loc[0, 'max_f']).date()
+min_fecha = pd.to_datetime(dates.iloc[0, 0]).date()
+max_fecha = pd.to_datetime(dates.iloc[0, 1]).date()
 
 df_mes = read_sql_df("""
 SELECT mes, COUNT(*) AS total_clientes
@@ -22,7 +22,21 @@ GROUP BY mes;
 
 fig = px.line(
     df_mes, x='mes', y='total_clientes',
-    markers=True, title='Clientes por mes. (MySQL)'
+    markers=True, 
+    title='Clientes por mes. (MySQL)'
+    )
+
+df_ventas = read_sql_df("""
+SELECT medio_pago, COUNT(*) AS cantidad_ventas
+FROM Ventas
+GROUP BY medio_pago
+ORDER BY cantidad_ventas DESC;
+""")
+
+fig_medio = px.bar(
+    df_ventas, x='medio_pago', y='cantidad_ventas',
+    title='Ventas por medio de pago. (MySQL)',
+    text_auto='.2s'
     )
 
 app = Dash(
@@ -104,9 +118,12 @@ app.layout = html.Div(
         ),
         
         html.Div(
-            className='charts',
-            children=[dcc.Graph(id='g-timeseries', figure=fig)],
-        ),
+            className='row', children=[
+                html.Div(className='col-6', children=[dcc.Graph
+                (id='g-clientes', figure=fig)]),
+                html.Div(className='col-6', children=[dcc.Graph
+                (id='g-medios', figure=fig_medio)]),
+            ]),
     ],
 )
 
